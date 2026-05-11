@@ -1,4 +1,4 @@
-base_url = "https://um-arm-lab.github.io/claps"
+base_url = "https://um-arm-lab.github.io/ocular"
 compile_sass = true
 build_search_index = false
 generate_feeds = false
