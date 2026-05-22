@@ -1,2 +1,5 @@
 .DS_Store
 /public
+
+# Keep local generated rollouts beyond the published picker episodes out of commits.
+static/marble_videos/single/*_episode_[12][0-9]_*.mp4

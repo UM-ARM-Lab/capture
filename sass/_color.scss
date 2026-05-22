@@ -22,9 +22,9 @@
         @if $color-selection-dark { --color-selection: #{$color-selection-dark}; }
     }
     .dark-invert, pre.z-code code {
-        filter: invert(90%) hue-rotate(180deg) sepia(10%);
+        filter: invert(86.67%) hue-rotate(180deg);
     }
-    img:not(.dark-invert) {
+    img:not(.dark-invert):not(.no-dark-filter) {
         filter: brightness(80%);
     }
 }

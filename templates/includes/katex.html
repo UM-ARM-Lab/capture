@@ -1,24 +1,33 @@
 {% if config.extra.server_side_katex and get_env(name="GITHUB_ACTIONS", default="false") == "true" %}
-    <link rel="stylesheet" href="{{ get_url(path = 'katex.min.css') | safe }}">
+    <link rel="stylesheet" href="{{ get_url(path = 'katex/katex.min.css') | safe }}">
 {% else %}
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" as="style" onload="this.rel='stylesheet';">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
+    <link rel="stylesheet" href="{{ get_url(path = 'katex/katex.min.css') | safe }}">
+    <script defer src="{{ get_url(path = 'katex/katex.min.js') | safe }}"></script>
     <script>
     window.addEventListener("DOMContentLoaded",()=>{
+        if (!window.katex) {
+            console.warn("KaTeX failed to load.");
+            return;
+        }
+        const renderOptions = {throwOnError: false, strict: "ignore"};
         document.querySelectorAll('code').forEach(e=>{
-            let t = e.innerText
+            if (e.closest('pre')) {
+                return;
+            }
+            let t = e.textContent.trim();
             if(t.startsWith('$')&&t.endsWith('$')){
                 let s = document.createElement('span');
-                katex.render(t.slice(1,-1),s);
+                katex.render(t.slice(1,-1),s,renderOptions);
                 e.parentNode.replaceChild(s,e);
             }
         });
-        document.querySelectorAll('pre.z-code code:not([class])').forEach(e=>{
-            if(e.firstChild.innerText.trim().startsWith('$$')&&e.lastChild.innerText.trim().startsWith('$$')){
-                let t = Array.from(e.childNodes).slice(1,e.childElementCount-1).map(n=>n.innerText).join(' ');
+        document.querySelectorAll('pre.z-code code').forEach(e=>{
+            let t = e.textContent.trim();
+            let m = t.match(/^\$\$([\s\S]*)\$\$$/);
+            if(m){
                 let z = e.parentNode;
                 let p = document.createElement('p');
-                katex.render(t,p,{displayMode:true});
+                katex.render(m[1].trim(),p,{...renderOptions, displayMode:true});
                 z.parentNode.replaceChild(p,z);
             }
         });

@@ -3,6 +3,8 @@
 {% set clean_name = first_src | replace(from="/", to="") | replace(from=".", to="") | replace(from=" ", to="") %}
 {% set carousel_id = "carousel-" ~ clean_name %}
 {% set style = style | default(value="") %}
+{% set dark_src = dark_src | default(value=[]) %}
+{% set labels = labels | default(value=[]) %}
 <figure{% if style %} style="{{ style }}" {% endif %}>
     {% if src | length > 1 %}
     <div class="carousel-wrapper">
@@ -13,26 +15,39 @@
                     {% endif %}>
                     {% if item is ending_with('.mp4') %}
                     <video {% if dark_invert[loop.index0] %}class="dark-invert" {% endif %}{{
-                        source_attributes[loop.index0] | default(value='controls loop muted' ) }}{% if style %}
+                        source_attributes[loop.index0] | default(value='loop muted playsinline' ) }}{% if style %}
                         style="{{ style }}" {% endif %}>
                         <source src="{{ item | safe }}" type="video/mp4">
                     </video>
                     {% else %}
+                    {% set item_dark_src = dark_src[loop.index0] | default(value="") %}
+                    {% if item_dark_src %}
+                    <picture>
+                        <source srcset="{{ item_dark_src | safe }}" media="(prefers-color-scheme: dark)">
+                        <img class="no-dark-filter" alt="{{ alt[loop.index0] }}" src="{{ item | safe }}" loading="lazy"
+                            {% if style %} style="{{ style }}" {% endif %}>
+                    </picture>
+                    {% else %}
                     <img {% if dark_invert[loop.index0] %}class="dark-invert" {% endif %}alt="{{ alt[loop.index0] }}"
                         src="{{ item | safe }}" loading="lazy" {% if style %} style="{{ style }}" {% endif %}>
+                    {% endif %}
                     {% endif %}
                 </div>
                 {% endfor %}
             </div>
 
-            <button class="carousel-prev" onclick="moveSlide('{{ carousel_id }}', -1)"></button>
-            <button class="carousel-next" onclick="moveSlide('{{ carousel_id }}', 1)"></button>
+            <button type="button" class="carousel-prev" aria-label="Previous slide"
+                data-carousel-target="{{ carousel_id }}" data-carousel-direction="-1"></button>
+            <button type="button" class="carousel-next" aria-label="Next slide"
+                data-carousel-target="{{ carousel_id }}" data-carousel-direction="1"></button>
         </div>
 
-        <div class="carousel-dots">
+        <div class="{% if labels | length > 0 %}carousel-tabs{% else %}carousel-dots{% endif %}">
             {% for item in src %}
-            <button class="carousel-dot{% if loop.first %} active{% endif %}"
-                onclick="goToSlide('{{ carousel_id }}', {{ loop.index0 }})"></button>
+            <button type="button"
+                class="{% if labels | length > 0 %}carousel-tab{% else %}carousel-dot{% endif %} carousel-control{% if loop.first %} active{% endif %}"
+                aria-label="{% if labels | length > 0 %}Show {{ labels[loop.index0] }}{% else %}Show slide {{ loop.index }}{% endif %}"
+                data-carousel-target="{{ carousel_id }}" data-carousel-slide="{{ loop.index0 }}">{% if labels | length > 0 %}{{ labels[loop.index0] }}{% endif %}</button>
             {% endfor %}
         </div>
     </div>
@@ -45,9 +60,18 @@
         <source src="{{ item | safe }}" type="video/mp4">
     </video>
     {% else %}
+    {% set item_dark_src = dark_src[loop.index0] | default(value="") %}
+    {% if item_dark_src %}
+    <picture>
+        <source srcset="{{ item_dark_src | safe }}" media="(prefers-color-scheme: dark)">
+        <img class="single-image no-dark-filter" alt="{{ alt[loop.index0] }}" src="{{ item | safe }}" loading="lazy" {%
+            if style %} style="{{ style }}" {% endif %}>
+    </picture>
+    {% else %}
     <img {% if dark_invert[loop.index0] %}class="dark-invert single-image" {% else %}class="single-image" {% endif
         %}alt="{{ alt[loop.index0] }}" src="{{ item | safe }}" loading="lazy" {% if style %} style="{{ style }}" {%
         endif %}>
+    {% endif %}
     {% endif %}
     {% if subcaption %}
     <figcaption>{{ subcaption[loop.index0] | markdown(inline = true) | safe }}</figcaption>
@@ -62,7 +86,8 @@
 
     <style>
         .carousel-wrapper {
-            max-width: 1000px;
+            width: 90%;
+            max-width: 100%;
             margin: 2rem auto;
             display: flex;
             flex-direction: column;
@@ -70,6 +95,7 @@
         }
 
         .video-carousel {
+            width: 100%;
             position: relative;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -108,7 +134,7 @@
             background: #f8f9fa;
             border-top: 1px solid #e9ecef;
             text-align: justify;
-            font-size: 0.9rem;
+            font-size: 1rem;
             line-height: 1.4;
         }
 
@@ -174,6 +200,17 @@
             width: fit-content;
         }
 
+        .carousel-tabs {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 12px auto 0;
+            width: fit-content;
+            max-width: 100%;
+            flex-wrap: wrap;
+        }
+
         .carousel-dot {
             width: 14px;
             height: 14px;
@@ -189,9 +226,28 @@
         }
 
         .carousel-dot.active {
-            background: #007bff;
+            background: var(--color-primary);
             width: 18px;
             height: 18px;
+        }
+
+        .carousel-tab {
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            background: var(--color-light);
+            color: var(--color-text);
+            cursor: pointer;
+            padding: 0.35rem 0.7rem;
+            font-size: 0.96rem;
+            line-height: 1.1;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .carousel-tab:hover,
+        .carousel-tab.active {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: var(--color-white);
         }
 
         .single-video {
@@ -211,8 +267,22 @@
 
         /* Mobile styles - placed at end for proper cascade */
         @media screen and (max-width: 768px) {
+            .carousel-wrapper {
+                width: 100%;
+            }
+
             .carousel-wrapper .carousel-dots {
                 margin: -10px auto 0 !important;
+            }
+
+            .carousel-tabs {
+                margin: 8px auto 0;
+                gap: 6px;
+            }
+
+            .carousel-tab {
+                padding: 0.32rem 0.55rem;
+                font-size: 0.9rem;
             }
 
             .video-carousel {
@@ -241,12 +311,35 @@
     </style>
 
     <script>
+        function setCarouselControls(carousel, enabled) {
+            carousel.querySelectorAll('video').forEach(video => {
+                if (enabled) {
+                    video.setAttribute('controls', '');
+                } else {
+                    video.removeAttribute('controls');
+                }
+            });
+        }
+
+        function syncCarouselControls(carousel) {
+            setCarouselControls(carousel, carousel.matches(':hover'));
+        }
+
+        function playCarouselMedia(video) {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Video play was prevented:', error);
+                });
+            }
+        }
+
         function moveSlide(carouselId, direction) {
             const carousel = document.getElementById(carouselId);
             if (!carousel) return;
 
             const slides = carousel.querySelectorAll('.carousel-slide');
-            const dots = carousel.parentElement.querySelectorAll('.carousel-dot');
+            const dots = carousel.parentElement.querySelectorAll('.carousel-control');
             let currentIndex = 0;
 
             // Find current active slide
@@ -271,7 +364,7 @@
                     const video = slide.querySelector('video');
                     if (video) {
                         video.currentTime = 0;
-                        video.play();
+                        playCarouselMedia(video);
                     }
                 } else {
                     slide.style.display = 'none';
@@ -291,6 +384,8 @@
                     dot.classList.remove('active');
                 }
             });
+
+            syncCarouselControls(carousel);
         }
 
         function goToSlide(carouselId, slideIndex) {
@@ -298,7 +393,19 @@
             if (!carousel) return;
 
             const slides = carousel.querySelectorAll('.carousel-slide');
-            const dots = carousel.parentElement.querySelectorAll('.carousel-dot');
+            const dots = carousel.parentElement.querySelectorAll('.carousel-control');
+            let currentIndex = 0;
+
+            slides.forEach((slide, index) => {
+                if (slide.style.display === 'block') {
+                    currentIndex = index;
+                }
+            });
+
+            if (currentIndex === slideIndex) {
+                syncCarouselControls(carousel);
+                return;
+            }
 
             // Update slides and control video playback
             slides.forEach((slide, index) => {
@@ -307,7 +414,7 @@
                     const video = slide.querySelector('video');
                     if (video) {
                         video.currentTime = 0;
-                        video.play();
+                        playCarouselMedia(video);
                     }
                 } else {
                     slide.style.display = 'none';
@@ -327,6 +434,8 @@
                     dot.classList.remove('active');
                 }
             });
+
+            syncCarouselControls(carousel);
         }
 
         // Play video when carousel comes into view
@@ -350,6 +459,43 @@
             }
         }
 
+        function handleCarouselButtonClick(event) {
+            const button = event.currentTarget || event.target.closest('[data-carousel-target]');
+            if (!button) return;
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            const target = button.dataset.carouselTarget;
+            if (!target) return;
+
+            if (button.dataset.carouselDirection !== undefined) {
+                moveSlide(target, Number(button.dataset.carouselDirection));
+            } else if (button.dataset.carouselSlide !== undefined) {
+                goToSlide(target, Number(button.dataset.carouselSlide));
+            }
+        }
+
+        function bindCarouselButtons(root) {
+            root.querySelectorAll('[data-carousel-target]').forEach(button => {
+                if (button.dataset.carouselBound === 'true') return;
+                button.setAttribute('type', 'button');
+                button.addEventListener('click', handleCarouselButtonClick);
+                button.addEventListener('auxclick', event => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                });
+                button.addEventListener('pointerdown', event => {
+                    event.stopPropagation();
+                });
+                button.dataset.carouselBound = 'true';
+            });
+        }
+
+        function setupCarouselButtons() {
+            document.querySelectorAll('.carousel-wrapper').forEach(bindCarouselButtons);
+        }
+
         function setupIntersectionObserver() {
             const carousels = document.querySelectorAll('.video-carousel');
 
@@ -364,7 +510,18 @@
             });
 
             carousels.forEach(carousel => {
+                if (carousel.dataset.controlsReady !== 'true') {
+                    setCarouselControls(carousel, false);
+                    carousel.addEventListener('mouseenter', () => setCarouselControls(carousel, true));
+                    carousel.addEventListener('mouseleave', () => setCarouselControls(carousel, false));
+                    carousel.dataset.controlsReady = 'true';
+                }
+
+                setupCarouselButtons();
+
+                if (carousel.dataset.observerReady === 'true') return;
                 observer.observe(carousel);
+                carousel.dataset.observerReady = 'true';
 
                 // Check if already visible
                 const rect = carousel.getBoundingClientRect();
@@ -376,5 +533,9 @@
         }
 
         // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', setupIntersectionObserver);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupIntersectionObserver);
+        } else {
+            setupIntersectionObserver();
+        }
     </script>

@@ -45,14 +45,21 @@
                     {% endfor %}
                 </div>
                 <h2>
-                    {% set paper_button = this.extra.buttons | filter(attribute = 'name', value = 'Paper') | first %}
-                    <a href="{{ this.extra.venue.url | default(value = paper_button.url | default(value = this.path ~ '#')) | safe }}" target="_blank">
+                    {% if this.extra.venue.url %}
+                        <a href="{{ this.extra.venue.url | safe }}" target="_blank">
+                            <span itemprop="isPartOf" itemscope itemtype="http://schema.org/Periodical"><span itemprop="name" style="white-space: normal;">
+                                {{- this.extra.venue.name -}}
+                            </span></span>{% if this.extra.venue.date or this.date %}&nbsp;<time datetime="{{ this.extra.venue.date | default(value = this.date) | date(format='%+') }}" itemprop="datePublished">
+                                {{- this.extra.venue.date | default(value = this.date) | date(format='%Y') -}}
+                            </time>{% endif %}
+                        </a>
+                    {% else %}
                         <span itemprop="isPartOf" itemscope itemtype="http://schema.org/Periodical"><span itemprop="name" style="white-space: normal;">
                             {{- this.extra.venue.name -}}
                         </span></span>{% if this.extra.venue.date or this.date %}&nbsp;<time datetime="{{ this.extra.venue.date | default(value = this.date) | date(format='%+') }}" itemprop="datePublished">
                             {{- this.extra.venue.date | default(value = this.date) | date(format='%Y') -}}
                         </time>{% endif %}
-                    </a>
+                    {% endif %}
                 </h2>
             </header>
         
