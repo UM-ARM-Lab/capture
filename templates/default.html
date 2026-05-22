@@ -12,8 +12,10 @@
         <link rel="stylesheet" href="{{ get_url(path = 'main.css') | safe }}">
 
         {% if this.extra.favicon %}
+            <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path = 'favicon-32x32.png') }}">
+            <link rel="icon" type="image/png" sizes="192x192" href="{{ get_url(path = 'favicon-192x192.png') }}">
             <link rel="shortcut icon" type="image/x-icon" href="{{ get_url(path = 'favicon.ico') }}">
-            <link rel="apple-touch-icon" href="{{ get_url(path = 'apple-touch-icon.png') }}" type="image/png">
+            <link rel="apple-touch-icon" sizes="180x180" href="{{ get_url(path = 'apple-touch-icon.png') }}" type="image/png">
         {% endif %}
 
         {% if this.extra.katex %}{% include "includes/katex.html" %}{% endif %}

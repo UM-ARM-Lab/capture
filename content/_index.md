@@ -15,8 +15,9 @@ buttons = [
     # {name = "Code", url = "https://github.com/UM-ARM-Lab/capture_code"}
 ]
 katex = true
+card = "hero_videos/center_capture_with_particles_1x1_card.png"
 large_card = false
-favicon = false
+favicon = true
 +++
 
 <!--
