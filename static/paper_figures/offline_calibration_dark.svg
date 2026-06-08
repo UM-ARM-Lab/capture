@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1171" height="379" viewBox="0 0 1171 379" role="img" aria-labelledby="title desc">
+  <title id="title">Offline calibration of CaPTURe</title>
+  <desc id="desc">A vector diagram showing transition data, predictive particles, a decision tree partition, and per-partition SplitCP thresholds.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#eeeeee"/>
+    </marker>
+    <marker id="blue-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#1688ff"/>
+    </marker>
+    <style>
+      .bg { fill: #202020; }
+      .label { fill: #f0f0f0; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 32px; font-weight: 700; }
+      .body { fill: #f0f0f0; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 31px; }
+      .math { fill: #f4f4f4; font-family: Georgia, "Times New Roman", serif; font-size: 32px; font-style: italic; }
+      .math-small { fill: #f4f4f4; font-family: Georgia, "Times New Roman", serif; font-size: 24px; font-style: italic; }
+      .blue { fill: #1688ff; }
+      .red { fill: #ff1111; }
+      .cyan { fill: #00bfff; }
+      .muted { fill: #b9b9b9; }
+      .wall { fill: #6b4229; }
+      .free { fill: #e0bd92; }
+      .green { fill: #64b85e; }
+      .orange { fill: #ff9f00; }
+      .panel { fill: none; stroke: #e7e7e7; stroke-width: 4; }
+      .arrow { fill: none; stroke: #eeeeee; stroke-width: 4; marker-end: url(#arrow); }
+      .blue-line { fill: none; stroke: #1688ff; stroke-width: 3.2; marker-end: url(#blue-arrow); }
+      .thin-blue { fill: none; stroke: #006f9f; stroke-width: 3; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1171" height="379"/>
+
+  <text class="label" x="57" y="50">transition</text>
+  <text class="math" x="36" y="93">(<tspan class="blue">s</tspan><tspan class="blue" baseline-shift="sub" font-size="22">t</tspan><tspan>, </tspan><tspan class="blue">u</tspan><tspan class="blue" baseline-shift="sub" font-size="22">t</tspan><tspan>, </tspan><tspan class="red">c</tspan><tspan class="red" baseline-shift="sub" font-size="22">t+1</tspan><tspan>)</tspan><tspan baseline-shift="sub" font-size="22">i</tspan></text>
+
+  <text class="math" x="248" y="62"><tspan class="blue">s</tspan><tspan class="blue" baseline-shift="sub" font-size="22">t</tspan><tspan>, </tspan><tspan class="blue">u</tspan><tspan class="blue" baseline-shift="sub" font-size="22">t</tspan><tspan>, S(</tspan><tspan class="red">c</tspan><tspan class="red" baseline-shift="sub" font-size="22">t+1</tspan><tspan>) := (X, T(Y))</tspan></text>
+  <path d="M242 82 H648 V323" fill="none" stroke="#eeeeee" stroke-width="4"/>
+
+  <g transform="translate(37 136)">
+    <rect class="wall" x="0" y="-14" width="188" height="216"/>
+    <rect class="free" x="24" y="0" width="164" height="202"/>
+    <rect class="green" x="14" y="0" width="10" height="202"/>
+    <rect class="green" x="24" y="0" width="164" height="12"/>
+    <rect class="orange" x="14" y="0" width="12" height="12"/>
+    <circle class="red" cx="23" cy="47" r="6"/>
+    <text class="math red" x="23" y="34">c<tspan baseline-shift="sub" font-size="22">t+1</tspan></text>
+    <path class="blue-line" d="M139 139 L58 79"/>
+    <circle class="blue" cx="139" cy="139" r="6"/>
+    <text class="math blue" x="138" y="168">c<tspan baseline-shift="sub" font-size="22">t</tspan></text>
+    <text class="math blue" x="92" y="102">u<tspan baseline-shift="sub" font-size="22">t</tspan></text>
+  </g>
+
+  <path class="arrow" d="M239 238 H286"/>
+  <text class="math" x="255" y="216" font-size="47">f</text>
+  <path d="M265 174 q10 -14 19 0" fill="none" stroke="#f4f4f4" stroke-width="2.5"/>
+
+  <g transform="translate(304 122)">
+    <rect class="wall" x="0" y="0" width="185" height="216"/>
+    <rect class="free" x="24" y="21" width="161" height="195"/>
+    <rect class="green" x="14" y="21" width="10" height="195"/>
+    <rect class="green" x="24" y="21" width="161" height="8"/>
+    <rect class="orange" x="14" y="21" width="12" height="12"/>
+    <rect class="orange" x="14" y="14" width="9" height="5"/>
+    <rect x="33" y="20" width="55" height="116" fill="none" stroke="#006f9f" stroke-width="3"/>
+    <path class="thin-blue" d="M88 20 V136 L130 158"/>
+    <path class="thin-blue" d="M33 136 L88 136"/>
+    <circle cx="21" cy="50" r="6" fill="#000"/>
+    <circle cx="38" cy="52" r="6" fill="#000"/>
+    <circle cx="20" cy="66" r="6" fill="#000"/>
+    <circle cx="35" cy="76" r="6" fill="#000"/>
+    <circle cx="21" cy="91" r="6" fill="#000"/>
+    <circle cx="20" cy="108" r="6" fill="#000"/>
+    <circle class="red" cx="29" cy="61" r="6"/>
+    <text class="math red" x="31" y="54">c<tspan baseline-shift="sub" font-size="22">t+1</tspan></text>
+  </g>
+
+  <g transform="translate(431 141)">
+    <rect x="0" y="0" width="160" height="184" fill="#e5e5e5" stroke="#12789d" stroke-width="4"/>
+    <text class="math muted" x="37" y="54" font-size="56">c<tspan baseline-shift="sub" font-size="38">t+1</tspan></text>
+    <circle cx="33" cy="51" r="10" fill="#999"/>
+    <circle cx="64" cy="82" r="12" class="red"/>
+    <circle cx="31" cy="108" r="12" fill="#999"/>
+    <circle cx="62" cy="108" r="12" fill="#999"/>
+    <circle cx="94" cy="108" r="12" fill="#999"/>
+    <circle cx="31" cy="148" r="12" fill="#999"/>
+    <circle cx="62" cy="143" r="12" fill="#999"/>
+    <path class="blue-line" d="M64 82 L33 51"/>
+    <path class="blue-line" d="M64 82 L35 118"/>
+    <path class="blue-line" d="M64 82 L93 58"/>
+    <path class="blue-line" d="M64 82 L110 115"/>
+    <text class="math cyan" x="101" y="152">kNN<tspan baseline-shift="sub" font-size="22">k</tspan></text>
+  </g>
+
+  <text class="math cyan" x="598" y="294">-&gt; R<tspan baseline-shift="sub" font-size="22">i</tspan></text>
+
+  <path class="arrow" d="M650 121 H803"/>
+  <text class="math-small" x="652" y="105">(X, T(Y), R)<tspan baseline-shift="sub" font-size="18">i</tspan></text>
+  <path class="arrow" d="M650 259 H803"/>
+  <text class="math-small" x="652" y="243">(X, T(Y), R)<tspan baseline-shift="sub" font-size="18">i</tspan></text>
+
+  <text class="body" x="811" y="51">1) Fit tree with <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">D</tspan><tspan baseline-shift="sub" font-size="21">cal</tspan><tspan baseline-shift="super" font-size="21">part</tspan></text>
+  <rect class="panel" x="808" y="70" width="342" height="99" rx="18"/>
+  <text class="body" x="839" y="111">partition (X,T(Y)) to</text>
+  <text class="body" x="912" y="147">min Var(<tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">R</tspan>)</text>
+  <path class="arrow" d="M946 170 V224"/>
+  <text class="body" x="955" y="206">DTree()</text>
+  <rect class="panel" x="808" y="233" width="342" height="80" rx="13"/>
+  <text class="body" x="827" y="260">for partition <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">k</tspan>:</text>
+  <text class="math" x="827" y="296">q<tspan baseline-shift="super" font-size="20">&#x0302;</tspan><tspan baseline-shift="sub" font-size="20">k</tspan> &lt;- SplitCP({R<tspan baseline-shift="sub" font-size="20">i</tspan>} in k)</text>
+  <text class="body" x="821" y="348">2) with <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">D</tspan><tspan baseline-shift="sub" font-size="21">cal</tspan><tspan baseline-shift="super" font-size="21">cp</tspan></text>
+</svg>

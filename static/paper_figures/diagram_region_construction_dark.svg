@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1308" height="391" viewBox="0 0 1308 391" role="img" aria-labelledby="title desc">
+  <title id="title">Construction of a stratified CaPTURe prediction region</title>
+  <desc id="desc">A vector diagram showing C-space decomposition into strata, per-stratum thresholds from a decision tree, and union into CaPTURe's prediction region.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#eeeeee"/>
+    </marker>
+    <marker id="blue-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#1688ff"/>
+    </marker>
+    <style>
+      .bg { fill: #202020; }
+      .title { fill: #f0f0f0; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 37px; font-weight: 600; }
+      .body { fill: #f0f0f0; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 34px; }
+      .small { font-size: 24px; }
+      .math { fill: #f4f4f4; font-family: Georgia, "Times New Roman", serif; font-size: 31px; font-style: italic; }
+      .wall { fill: #6b4229; }
+      .free { fill: #e0bd92; }
+      .green { fill: #64b85e; }
+      .orange { fill: #ff9f00; }
+      .blue { fill: #1688ff; }
+      .magenta { fill: #df19d8; }
+      .muted { fill: #b8b8b8; }
+      .card { fill: #e9e9e9; stroke: #cfcfcf; stroke-width: 2.5; }
+      .sep { stroke: #5a5a5a; stroke-width: 3; stroke-dasharray: 24 12; }
+      .arrow { fill: none; stroke: #eeeeee; stroke-width: 4; marker-end: url(#arrow); }
+      .blue-line { fill: none; stroke: #1688ff; stroke-width: 3.2; marker-end: url(#blue-arrow); }
+      .panel { fill: none; stroke: #eeeeee; stroke-width: 4; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1308" height="391"/>
+
+  <line class="sep" x1="278" y1="21" x2="278" y2="361"/>
+  <line class="sep" x1="588" y1="21" x2="588" y2="361"/>
+  <line class="sep" x1="741" y1="21" x2="741" y2="361"/>
+  <line class="sep" x1="1043" y1="21" x2="1043" y2="361"/>
+
+  <text class="title" x="139" y="50" text-anchor="middle">Configuration</text>
+  <text class="title" x="139" y="94" text-anchor="middle">space</text>
+  <text class="title" x="439" y="49" text-anchor="middle">Strata</text>
+  <text class="title" x="439" y="92" text-anchor="middle">Decomposition</text>
+  <text class="title" x="906" y="49" text-anchor="middle">Build per-</text>
+  <text class="title" x="906" y="92" text-anchor="middle">stratum regions</text>
+  <text class="body" x="1069" y="70">CaPTURe&apos;s</text>
+  <text class="math magenta" x="1260" y="70" font-size="38">c</text>
+  <path d="M1264 38 Q1272 29 1280 38" fill="none" stroke="#df19d8" stroke-width="3"/>
+
+  <g transform="translate(44 126)">
+    <rect class="wall" x="0" y="0" width="185" height="216"/>
+    <rect class="free" x="24" y="14" width="161" height="202"/>
+    <rect class="green" x="14" y="14" width="10" height="202"/>
+    <rect class="green" x="24" y="14" width="161" height="12"/>
+    <rect class="orange" x="14" y="14" width="12" height="12"/>
+    <circle cx="20" cy="48" r="6" fill="#000"/>
+    <circle cx="36" cy="53" r="6" fill="#000"/>
+    <circle cx="20" cy="64" r="6" fill="#000"/>
+    <circle cx="34" cy="76" r="6" fill="#000"/>
+    <circle cx="20" cy="92" r="6" fill="#000"/>
+    <circle cx="20" cy="108" r="6" fill="#000"/>
+    <path class="blue-line" d="M139 154 L58 94"/>
+    <circle class="blue" cx="139" cy="154" r="6"/>
+    <text class="math blue" x="137" y="186">c<tspan baseline-shift="sub" font-size="21">t</tspan></text>
+    <text class="math blue" x="92" y="112">u<tspan baseline-shift="sub" font-size="21">t</tspan></text>
+  </g>
+
+  <path class="arrow" d="M259 230 H303"/>
+
+  <g transform="translate(332 121)">
+    <rect class="card" x="0" y="0" width="142" height="164"/>
+    <rect fill="#dcdcdc" x="14" y="12" width="128" height="30"/>
+    <rect fill="#f5f5f5" x="14" y="42" width="128" height="122"/>
+    <rect class="orange" x="10" y="12" width="10" height="12"/>
+    <circle class="muted" cx="19" cy="41" r="5"/>
+    <circle class="muted" cx="29" cy="39" r="5"/>
+    <circle class="muted" cx="19" cy="56" r="5"/>
+    <circle class="muted" cx="30" cy="56" r="5"/>
+    <circle class="muted" cx="20" cy="72" r="5"/>
+    <circle class="muted" cx="29" cy="76" r="5"/>
+  </g>
+  <g transform="translate(363 153)">
+    <rect class="card" x="0" y="0" width="142" height="164"/>
+    <rect fill="#dcdcdc" x="14" y="12" width="128" height="30"/>
+    <rect fill="#f5f5f5" x="14" y="42" width="128" height="122"/>
+    <rect class="green" x="16" y="14" width="10" height="122"/>
+    <rect class="green" x="26" y="14" width="116" height="10"/>
+  </g>
+  <g transform="translate(394 183)">
+    <rect fill="#e4c197" stroke="#f4f4f4" stroke-width="3" x="0" y="0" width="142" height="164"/>
+  </g>
+  <text class="math orange" x="300" y="145" font-size="38">S<tspan baseline-shift="sub" font-size="24">0</tspan></text>
+  <text class="math green" x="338" y="328" font-size="38">S<tspan baseline-shift="sub" font-size="24">1</tspan></text>
+  <text class="math" x="374" y="359" fill="#e0bd92" font-size="36">S<tspan baseline-shift="sub" font-size="23">2</tspan></text>
+  <text class="body small" x="514" y="103" transform="rotate(49 514 103)">per</text>
+  <text class="body small" x="504" y="127" transform="rotate(49 504 127)">stratum</text>
+  <path class="arrow" d="M497 123 L546 172"/>
+
+  <path class="arrow" d="M568 229 H608"/>
+  <rect class="panel" x="613" y="199" width="114" height="56" rx="8"/>
+  <text class="body" x="623" y="239">DTree</text>
+  <text class="math" x="536" y="289">s<tspan baseline-shift="sub" font-size="20">t</tspan>, u<tspan baseline-shift="sub" font-size="20">t</tspan>, S<tspan baseline-shift="sub" font-size="20">m</tspan></text>
+  <text class="math" x="728" y="289">q<tspan baseline-shift="super" font-size="19">&#x0302;</tspan><tspan baseline-shift="sub" font-size="19">k</tspan></text>
+  <path class="arrow" d="M728 229 H773"/>
+
+  <g transform="translate(783 122)" opacity="0.95">
+    <rect class="card" x="0" y="0" width="142" height="164"/>
+    <rect fill="#dcdcdc" x="14" y="12" width="128" height="30"/>
+    <rect fill="#f5f5f5" x="14" y="42" width="128" height="122"/>
+    <circle class="muted" cx="19" cy="41" r="5"/>
+    <circle class="muted" cx="29" cy="39" r="5"/>
+    <circle class="muted" cx="19" cy="56" r="5"/>
+    <circle class="muted" cx="30" cy="56" r="5"/>
+    <circle class="muted" cx="20" cy="72" r="5"/>
+  </g>
+  <g transform="translate(815 154)" opacity="0.95">
+    <rect class="card" x="0" y="0" width="142" height="164"/>
+    <rect fill="#dcdcdc" x="14" y="12" width="128" height="30"/>
+    <rect fill="#f5f5f5" x="14" y="42" width="128" height="122"/>
+    <rect class="green" x="17" y="14" width="10" height="99"/>
+  </g>
+  <g transform="translate(846 184)" opacity="0.95">
+    <rect class="card" x="0" y="0" width="142" height="164"/>
+    <rect fill="#f5f5f5" x="0" y="0" width="142" height="164"/>
+    <path fill="#e0bd92" d="M18 31 L37 38 L37 73 L19 86 Z"/>
+    <path d="M65 76 L121 118" stroke="#cfcfcf" stroke-width="3" marker-end="url(#arrow)" opacity="0.55"/>
+    <text class="math" x="72" y="89" fill="#cfcfcf" font-size="24">u<tspan baseline-shift="sub" font-size="16">t</tspan></text>
+    <circle cx="121" cy="118" r="5" fill="#cfcfcf"/>
+    <text class="math" x="119" y="147" fill="#cfcfcf" font-size="24">c<tspan baseline-shift="sub" font-size="16">t</tspan></text>
+  </g>
+  <text class="body small" x="962" y="103" transform="rotate(49 962 103)">per</text>
+  <text class="body small" x="953" y="127" transform="rotate(49 953 127)">stratum</text>
+
+  <path class="arrow" d="M1016 230 H1057"/>
+  <text class="body" x="1025" y="213">U</text>
+
+  <g transform="translate(1069 126)">
+    <rect class="wall" x="0" y="0" width="185" height="216"/>
+    <rect class="free" x="24" y="14" width="161" height="202"/>
+    <rect class="green" x="14" y="14" width="10" height="202"/>
+    <rect class="green" x="24" y="14" width="161" height="12"/>
+    <rect class="orange" x="14" y="14" width="12" height="12"/>
+    <path class="magenta" d="M16 44 L55 49 L55 108 L16 118 Z" opacity="0.95"/>
+    <circle class="magenta" cx="22" cy="50" r="6"/>
+    <circle class="magenta" cx="38" cy="56" r="6"/>
+    <circle class="magenta" cx="22" cy="68" r="6"/>
+    <circle class="magenta" cx="39" cy="78" r="6"/>
+    <circle class="magenta" cx="22" cy="92" r="6"/>
+    <circle class="magenta" cx="36" cy="102" r="6"/>
+    <path class="blue-line" d="M139 154 L58 94"/>
+    <circle class="blue" cx="139" cy="154" r="6"/>
+    <text class="math blue" x="137" y="186">c<tspan baseline-shift="sub" font-size="21">t</tspan></text>
+    <text class="math blue" x="92" y="112">u<tspan baseline-shift="sub" font-size="21">t</tspan></text>
+  </g>
+</svg>
