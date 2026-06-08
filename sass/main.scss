@@ -9,22 +9,22 @@ $h4-font-size: 1.25rem !default;
 $h5-font-size: 1rem !default;
 $h6-font-size: 1rem !default;
 
-$color-text: #212529 !default;
+$color-text: #fff !default;
 $color-primary: #e1814c !default;
-$color-light: #f8f9fa !default;
+$color-light: #000 !default;
 $color-white: #fff !default;
 $color-black: #000 !default;
 $color-btn: #343a40 !default;
-$color-border: #dee2e6 !default;
+$color-border: #e9ecef !default;
 $color-selection: #dee2e6 !default;
 
-$color-text-dark: #d1cdc7 !default;
+$color-text-dark: #fff !default;
 $color-primary-dark: #e1814c !default;
-$color-light-dark: #222222 !default;
-$color-white-dark: #222222 !default;
-$color-black-dark: #e7e5e4 !default;
-$color-btn-dark: #cbc5bf !default;
-$color-border-dark: false !default;
+$color-light-dark: #000 !default;
+$color-white-dark: #fff !default;
+$color-black-dark: #000 !default;
+$color-btn-dark: #343a40 !default;
+$color-border-dark: #e9ecef !default;
 $color-selection-dark: false !default;
 
 @font-face {
@@ -358,6 +358,20 @@ body {
     width: 100%;
     overflow: hidden;
     line-height: 0;
+}
+
+.capture-video-picker[data-video-template^="./marble_videos/"] .inference-video-stage {
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    background: var(--color-light);
+}
+
+.capture-video-picker[data-video-template^="./marble_videos/"] .inference-comparison-video {
+    width: auto;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .inference-comparison-video {
