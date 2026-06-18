@@ -129,7 +129,7 @@ The resulting prediction region `$\hat{\mathcal C} = \bigcup_{S_m \in \mathcal S
 
 ## Manipulator Peg Insertion
 
-<p class="capture-section-lede">We further evaluate CaPTURe on a tight-tolerance peg insertion task adapted from the <a href="https://research.nvidia.com/publication/2022-05_factory-fast-contact-robotic-assembly">Factory</a> simulation suite in Isaac Sim. We control a Franka Panda (7 DoF manipulator) to insert a cylindrical peg into a low-clearance hole under both stochastic disturbances and significant model mismatch. To facilitate contact-aware planning, we restrict end-effector motion to lie along the hole's plane, reducing possible peg poses from <code>$SE(3)$</code> to <code>$SE(2)$</code> and making the configuration of interest <code>$c_t = [x,z,\theta]$</code>. The videos below compare single-episode and all-method rollouts across initial peg poses.</p>
+<p class="capture-section-lede">We further evaluate CaPTURe on a tight-tolerance peg insertion task adapted from the <a href="https://research.nvidia.com/publication/2022-05_factory-fast-contact-robotic-assembly">Factory</a> simulation suite in Isaac Sim. We control a Franka Panda (7 DoF manipulator) to insert a cylindrical peg into a low-clearance hole under both stochastic disturbances and significant model mismatch. To facilitate contact-aware planning, we restrict end-effector motion to lie along the hole's plane, reducing possible peg poses from <code>$SE(3)$</code> to <code>$SE(2)$</code> and making the configuration of interest <code>$c_t = [x,z,\theta]$</code>. The videos below compare single-episode rollouts across initial peg poses.</p>
 
 <div class="inference-video-panel capture-video-picker" data-capture-video-picker data-video-template="./manipulator_videos/single/{initial_condition}_episode_{episode}_{method}.mp4">
     <div class="inference-picker-controls">
@@ -139,7 +139,6 @@ The resulting prediction region `$\hat{\mathcal C} = \bigcup_{S_m \in \mathcal S
                 <button type="button" class="inference-option active" data-video-token="initial_condition" data-video-value="c01" aria-pressed="true"><code>$c_{0,1}$</code></button>
                 <button type="button" class="inference-option" data-video-token="initial_condition" data-video-value="c02" aria-pressed="false"><code>$c_{0,2}$</code></button>
                 <button type="button" class="inference-option" data-video-token="initial_condition" data-video-value="c03" aria-pressed="false"><code>$c_{0,3}$</code></button>
-                <button type="button" class="inference-option" data-video-token="initial_condition" data-video-value="random" aria-pressed="false">Random</button>
             </div>
         </div>
         <div class="inference-picker-group" aria-label="Manipulator episode">
@@ -166,22 +165,6 @@ The resulting prediction region `$\hat{\mathcal C} = \bigcup_{S_m \in \mathcal S
     </div>
     <div class="inference-video-stage" data-capture-video-stage></div>
     <p class="inference-video-note" data-capture-video-note hidden>Video for this selection is not available yet.</p>
-</div>
-
-<div class="inference-video-panel capture-video-picker" data-capture-video-picker data-video-template="./manipulator_videos/all_runs/{initial_condition}_all_methods.mp4">
-    <div class="inference-picker-controls">
-        <div class="inference-picker-group" aria-label="Manipulator full initial-condition rollout">
-            <span class="inference-picker-label">Initial peg pose</span>
-            <div class="inference-picker-options" role="group">
-                <button type="button" class="inference-option active" data-video-token="initial_condition" data-video-value="c01" aria-pressed="true"><code>$c_{0,1}$</code></button>
-                <button type="button" class="inference-option" data-video-token="initial_condition" data-video-value="c02" aria-pressed="false"><code>$c_{0,2}$</code></button>
-                <button type="button" class="inference-option" data-video-token="initial_condition" data-video-value="c03" aria-pressed="false"><code>$c_{0,3}$</code></button>
-                <button type="button" class="inference-option" data-video-token="initial_condition" data-video-value="random" aria-pressed="false">Random</button>
-            </div>
-        </div>
-    </div>
-    <div class="inference-video-stage" data-capture-video-stage></div>
-    <p class="inference-video-note" data-capture-video-note hidden>Full initial-condition video for this selection is not available yet.</p>
 </div>
 
 <script>
