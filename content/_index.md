@@ -129,37 +129,75 @@ The resulting prediction region `$\hat{\mathcal C} = \bigcup_{S_m \in \mathcal S
 
 ## Manipulator Peg Insertion
 
-<p class="capture-section-lede">We further evaluate CaPTURe on a tight-tolerance peg insertion task adapted from the <a href="https://research.nvidia.com/publication/2022-05_factory-fast-contact-robotic-assembly">Factory</a> simulation suite in Isaac Sim. We control a Franka Panda (7 DoF manipulator) to insert a cylindrical peg into a low-clearance hole under both stochastic disturbances and significant model mismatch. To facilitate contact-aware planning, we restrict end-effector motion to lie along the hole's plane, reducing possible peg poses from <code>$SE(3)$</code> to <code>$SE(2)$</code> and making the configuration of interest <code>$c_t = [x,z,\theta]$</code>. The videos below compare single-episode rollouts across initial peg poses.</p>
+<p class="capture-section-lede">We further evaluate CaPTURe on a tight-tolerance peg insertion task adapted from the <a href="https://research.nvidia.com/publication/2022-05_factory-fast-contact-robotic-assembly">Factory</a> simulation suite in Isaac Sim. We control a Franka Panda (7 DoF manipulator) to insert a cylindrical peg into a low-clearance hole under both stochastic disturbances and significant model mismatch. To facilitate contact-aware planning, we restrict end-effector motion to lie along the hole's plane, reducing possible peg poses from <code>$SE(3)$</code> to <code>$SE(2)$</code> and making the configuration of interest <code>$c_t = [x,z,\theta]$</code>.</p>
 
-<div class="inference-video-panel capture-video-picker" data-capture-video-picker data-video-template="./manipulator_videos/single/{initial_condition}_episode_{episode}_{method}.mp4">
+<p>We have extended the results for the peg insertion experiment with 150 random initial configurations for each method, and will update the camera ready version to match these more comprehensive results. The table below shows the inference results from 150 random initial configurations and the videos below compare single-episode rollouts across initial peg poses from a selection of the 150 initial configurations.</p>
+
+<div class="result-table-wrap capture-wide-table">
+    <table class="result-table">
+        <caption>Peg-insertion planning results over 150 random initial configurations.</caption>
+        <thead>
+            <tr>
+                <th class="metric-cell">Metric</th>
+                <th class="narrow-col">ParticleNoCP</th>
+                <th class="narrow-col">PCP</th>
+                <th class="narrow-col">LUCCa</th>
+                <th class="method-cell">Ablation w/o strata (<code>$k_{\mathrm{NN}}=4$</code>)</th>
+                <th class="method-cell"><strong>CaPTURe</strong> (<code>$k_{\mathrm{NN}}=1$</code>)</th>
+                <th class="method-cell"><strong>CaPTURe</strong> (<code>$k_{\mathrm{NN}}=4$</code>)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th class="metric-cell" style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);">Success (%) <code>$\uparrow$</code></th>
+                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);">31.3</td>
+                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);">36.7</td>
+                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);"><u>40.0</u></td>
+                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);">38.7</td>
+                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);">35.3</td>
+                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);"><strong>46.7</strong></td>
+            </tr>
+            <tr>
+                <th class="metric-cell" style="background: var(--color-light);">Avg. Steps<br><span class="nowrap">(mean<code>$\pm$</code>std) <code>$\downarrow$</code></span></th>
+                <td style="background: var(--color-light);">63.0<code>$\pm$</code>26.7</td>
+                <td style="background: var(--color-light);">60.0<code>$\pm$</code>27.6</td>
+                <td style="background: var(--color-light);"><u>58.1<code>$\pm$</code>28.3</u></td>
+                <td style="background: var(--color-light);">59.1<code>$\pm$</code>27.8</td>
+                <td style="background: var(--color-light);">61.0<code>$\pm$</code>27.2</td>
+                <td style="background: var(--color-light);"><strong>54.2<code>$\pm$</code>28.6</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p class="table-note">Success = successful insertion within the planning horizon. Avg. Steps reports mean<code>$\pm$</code>std over successful episodes only. <strong>Bold</strong> marks best and <u>underline</u> marks second best.</p>
+
+
+<div class="inference-video-panel capture-video-picker" data-capture-video-picker data-video-template="./manipulator_videos/rand_init/{method}/{state}/{method}_{state}_inference_trace_combined_replay.mp4">
     <div class="inference-picker-controls">
         <div class="inference-picker-group" aria-label="Manipulator initial condition">
             <span class="inference-picker-label">Initial peg pose</span>
             <div class="inference-picker-options" role="group">
-                <button type="button" class="inference-option active" data-video-token="initial_condition" data-video-value="c01" aria-pressed="true"><code>$c_{0,1}$</code></button>
-                <button type="button" class="inference-option" data-video-token="initial_condition" data-video-value="c02" aria-pressed="false"><code>$c_{0,2}$</code></button>
-                <button type="button" class="inference-option" data-video-token="initial_condition" data-video-value="c03" aria-pressed="false"><code>$c_{0,3}$</code></button>
+                <button type="button" class="inference-option active" data-video-token="state" data-video-value="state_007" data-pose-note="x = 2.39 cm, z = 5.05 cm, angle = 9.19 deg" aria-pressed="true">state_007</button>
+                <button type="button" class="inference-option" data-video-token="state" data-video-value="state_011" data-pose-note="x = 0.292 cm, z = 3.04 cm, angle = 12.2 deg" aria-pressed="false">state_011</button>
+                <button type="button" class="inference-option" data-video-token="state" data-video-value="state_014" data-pose-note="x = -1.54 cm, z = 3.98 cm, angle = 14.7 deg" aria-pressed="false">state_014</button>
+                <button type="button" class="inference-option" data-video-token="state" data-video-value="state_016" data-pose-note="x = 2.81 cm, z = 5.41 cm, angle = -10.5 deg" aria-pressed="false">state_016</button>
+                <button type="button" class="inference-option" data-video-token="state" data-video-value="state_028" data-pose-note="x = -1.35 cm, z = 5.43 cm, angle = 8.21 deg" aria-pressed="false">state_028</button>
+                <button type="button" class="inference-option" data-video-token="state" data-video-value="state_038" data-pose-note="x = 0.205 cm, z = 5.04 cm, angle = 16.4 deg" aria-pressed="false">state_038</button>
+                <button type="button" class="inference-option" data-video-token="state" data-video-value="state_077" data-pose-note="x = -1.32 cm, z = 5.94 cm, angle = 14.9 deg" aria-pressed="false">state_077</button>
+                <button type="button" class="inference-option" data-video-token="state" data-video-value="state_141" data-pose-note="x = -2.78 cm, z = 3.06 cm, angle = 19.2 deg" aria-pressed="false">state_141</button>
             </div>
         </div>
-        <div class="inference-picker-group" aria-label="Manipulator episode">
-            <span class="inference-picker-label">Episode</span>
-            <div class="inference-picker-options" role="group">
-                <button type="button" class="inference-option active" data-video-token="episode" data-video-value="00" aria-pressed="true">00</button>
-                <button type="button" class="inference-option" data-video-token="episode" data-video-value="01" aria-pressed="false">01</button>
-                <button type="button" class="inference-option" data-video-token="episode" data-video-value="02" aria-pressed="false">02</button>
-                <button type="button" class="inference-option" data-video-token="episode" data-video-value="03" aria-pressed="false">03</button>
-                <button type="button" class="inference-option" data-video-token="episode" data-video-value="04" aria-pressed="false">04</button>
-            </div>
-        </div>
+        <p class="inference-pose-note" data-capture-pose-note aria-live="polite">x = 2.39 cm, z = 5.05 cm, angle = 9.19 deg</p>
         <div class="inference-picker-group" aria-label="Manipulator method">
             <span class="inference-picker-label">Method</span>
             <div class="inference-picker-options" role="group">
-                <button type="button" class="inference-option" data-video-token="method" data-video-value="particle_no_cp" aria-pressed="false">ParticleNoCP</button>
+                <button type="button" class="inference-option" data-video-token="method" data-video-value="baseline_particle" aria-pressed="false">ParticleNoCP</button>
                 <button type="button" class="inference-option" data-video-token="method" data-video-value="pcp" aria-pressed="false">PCP</button>
                 <button type="button" class="inference-option" data-video-token="method" data-video-value="lucca" aria-pressed="false">LUCCa</button>
-                <button type="button" class="inference-option" data-video-token="method" data-video-value="ablation_without_strata" aria-pressed="false">Ablation: no strata label (k<sub>NN</sub>=4)</button>
-                <button type="button" class="inference-option" data-video-token="method" data-video-value="capture_knn1" aria-pressed="false"><strong>CaPTURe</strong> (ours, k<sub>NN</sub>=1)</button>
-                <button type="button" class="inference-option active" data-video-token="method" data-video-value="capture_knn4" aria-pressed="true"><strong>CaPTURe</strong> (ours, k<sub>NN</sub>=4)</button>
+                <button type="button" class="inference-option" data-video-token="method" data-video-value="knn_k4_nostrat" aria-pressed="false">Ablation: no strata label (k<sub>NN</sub>=4)</button>
+                <button type="button" class="inference-option" data-video-token="method" data-video-value="sparcp_k1" aria-pressed="false"><strong>CaPTURe</strong> (ours, k<sub>NN</sub>=1)</button>
+                <button type="button" class="inference-option active" data-video-token="method" data-video-value="sparcp_k4" aria-pressed="true"><strong>CaPTURe</strong> (ours, k<sub>NN</sub>=4)</button>
             </div>
         </div>
     </div>
@@ -173,6 +211,7 @@ The resulting prediction region `$\hat{\mathcal C} = \bigcup_{S_m \in \mathcal S
         const buttons = [...picker.querySelectorAll("[data-video-src], [data-video-token]")];
         const stage = picker.querySelector("[data-capture-video-stage]");
         const note = picker.querySelector("[data-capture-video-note]");
+        const poseNote = picker.querySelector("[data-capture-pose-note]");
         if (!buttons.length || !stage || !note) return;
 
         let activeVideo = null;
@@ -188,6 +227,15 @@ The resulting prediction region `$\hat{\mathcal C} = \bigcup_{S_m \in \mathcal S
                 button.classList.toggle("active", isActive);
                 button.setAttribute("aria-pressed", String(isActive));
             });
+        };
+
+        const updatePoseNote = () => {
+            if (!poseNote) return;
+
+            const selectedPose = picker.querySelector("[data-pose-note].active");
+            const poseText = selectedPose?.dataset.poseNote ?? "";
+            poseNote.textContent = poseText;
+            poseNote.hidden = !poseText;
         };
 
         const getSelectedTokens = () => {
@@ -271,6 +319,7 @@ The resulting prediction region `$\hat{\mathcal C} = \bigcup_{S_m \in \mathcal S
 
         const selectVideo = (button) => {
             setActiveButton(button);
+            updatePoseNote();
             const src = getSelectedSrc();
             if (!src) return;
 
