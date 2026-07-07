@@ -131,47 +131,7 @@ The resulting prediction region `$\hat{\mathcal C} = \bigcup_{S_m \in \mathcal S
 
 <p class="capture-section-lede">We further evaluate CaPTURe on a tight-tolerance peg insertion task adapted from the <a href="https://research.nvidia.com/publication/2022-05_factory-fast-contact-robotic-assembly">Factory</a> simulation suite in Isaac Sim. We control a Franka Panda (7 DoF manipulator) to insert a cylindrical peg into a low-clearance hole under both stochastic disturbances and significant model mismatch. To facilitate contact-aware planning, we restrict end-effector motion to lie along the hole's plane, reducing possible peg poses from <code>$SE(3)$</code> to <code>$SE(2)$</code> and making the configuration of interest <code>$c_t = [x,z,\theta]$</code>.</p>
 
-<p>We have extended the results for the peg insertion experiment with 150 random initial configurations for each method, and will update the camera ready version to match these more comprehensive results. The table below shows the inference results from 150 random initial configurations and the videos below compare single-episode rollouts across initial peg poses from a selection of the 150 initial configurations.</p>
-
-<div class="result-table-wrap capture-wide-table">
-    <table class="result-table">
-        <caption>Peg-insertion planning results over 150 random initial configurations.</caption>
-        <thead>
-            <tr>
-                <th class="metric-cell">Metric</th>
-                <th class="narrow-col">ParticleNoCP</th>
-                <th class="narrow-col">PCP</th>
-                <th class="narrow-col">LUCCa</th>
-                <th class="method-cell">Ablation w/o strata (<code>$k_{\mathrm{NN}}=4$</code>)</th>
-                <th class="method-cell"><strong>CaPTURe</strong> (<code>$k_{\mathrm{NN}}=1$</code>)</th>
-                <th class="method-cell"><strong>CaPTURe</strong> (<code>$k_{\mathrm{NN}}=4$</code>)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th class="metric-cell" style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);">Success (%) <code>$\uparrow$</code></th>
-                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);">31.3</td>
-                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);">36.7</td>
-                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);"><u>40.0</u></td>
-                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);">38.7</td>
-                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);">35.3</td>
-                <td style="background: color-mix(in srgb, var(--color-light), var(--color-white) 20%);"><strong>46.7</strong></td>
-            </tr>
-            <tr>
-                <th class="metric-cell" style="background: var(--color-light);">Avg. Steps<br><span class="nowrap">(mean<code>$\pm$</code>std) <code>$\downarrow$</code></span></th>
-                <td style="background: var(--color-light);">63.0<code>$\pm$</code>26.7</td>
-                <td style="background: var(--color-light);">60.0<code>$\pm$</code>27.6</td>
-                <td style="background: var(--color-light);"><u>58.1<code>$\pm$</code>28.3</u></td>
-                <td style="background: var(--color-light);">59.1<code>$\pm$</code>27.8</td>
-                <td style="background: var(--color-light);">61.0<code>$\pm$</code>27.2</td>
-                <td style="background: var(--color-light);"><strong>54.2<code>$\pm$</code>28.6</strong></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<p class="table-note">Success = successful insertion within the planning horizon. Avg. Steps reports mean<code>$\pm$</code>std over successful episodes only. <strong>Bold</strong> marks best and <u>underline</u> marks second best.</p>
-
+<p>The videos below show CaPTURe peg-insertion rollouts across several initial peg poses.</p>
 
 <div class="inference-video-panel capture-video-picker" data-capture-video-picker data-video-template="./manipulator_videos/rand_init/{method}/{state}/{method}_{state}_inference_trace_combined_replay.mp4">
     <div class="inference-picker-controls">
@@ -192,10 +152,6 @@ The resulting prediction region `$\hat{\mathcal C} = \bigcup_{S_m \in \mathcal S
         <div class="inference-picker-group" aria-label="Manipulator method">
             <span class="inference-picker-label">Method</span>
             <div class="inference-picker-options" role="group">
-                <button type="button" class="inference-option" data-video-token="method" data-video-value="baseline_particle" aria-pressed="false">ParticleNoCP</button>
-                <button type="button" class="inference-option" data-video-token="method" data-video-value="pcp" aria-pressed="false">PCP</button>
-                <button type="button" class="inference-option" data-video-token="method" data-video-value="lucca" aria-pressed="false">LUCCa</button>
-                <button type="button" class="inference-option" data-video-token="method" data-video-value="knn_k4_nostrat" aria-pressed="false">Ablation: no strata label (k<sub>NN</sub>=4)</button>
                 <button type="button" class="inference-option" data-video-token="method" data-video-value="sparcp_k1" aria-pressed="false"><strong>CaPTURe</strong> (ours, k<sub>NN</sub>=1)</button>
                 <button type="button" class="inference-option active" data-video-token="method" data-video-value="sparcp_k4" aria-pressed="true"><strong>CaPTURe</strong> (ours, k<sub>NN</sub>=4)</button>
             </div>
