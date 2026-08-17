@@ -1,5 +1,17 @@
 .DS_Store
 /public
+__pycache__/
 
 # Keep local generated rollouts beyond the published picker episodes out of commits.
 static/marble_videos/single/*_episode_[12][0-9]_*.mp4
+
+# Local raster previews; the website uses the vector SVG exports.
+static/paper_figures/diagram_region_construction_dark_arxiv_v1.png
+static/paper_figures/offline_calibration_dark_arxiv_v1.png
+
+# Local peg-video rendering previews and transcode diagnostics.
+static/peg_videos/w50_odin_preview/
+static/peg_videos/w50_odin/encode_complete.marker
+static/peg_videos/w50_odin/ffprobe_audit.tsv
+static/peg_videos/w50_odin/sha256sum.txt
+static/peg_videos/w50_odin/transcode.log

@@ -9,22 +9,22 @@ $h4-font-size: 1.25rem !default;
 $h5-font-size: 1rem !default;
 $h6-font-size: 1rem !default;
 
-$color-text: #fff !default;
+$color-text: #212529 !default;
 $color-primary: #e1814c !default;
-$color-light: #000 !default;
+$color-light: #f8f9fa !default;
 $color-white: #fff !default;
 $color-black: #000 !default;
 $color-btn: #343a40 !default;
-$color-border: #e9ecef !default;
+$color-border: #dee2e6 !default;
 $color-selection: #dee2e6 !default;
 
-$color-text-dark: #fff !default;
+$color-text-dark: #ffffff !default;
 $color-primary-dark: #e1814c !default;
-$color-light-dark: #000 !default;
-$color-white-dark: #fff !default;
-$color-black-dark: #000 !default;
-$color-btn-dark: #343a40 !default;
-$color-border-dark: #e9ecef !default;
+$color-light-dark: #000000 !default;
+$color-white-dark: #000000 !default;
+$color-black-dark: #ffffff !default;
+$color-btn-dark: #cbc5bf !default;
+$color-border-dark: false !default;
 $color-selection-dark: false !default;
 
 @font-face {
@@ -75,7 +75,13 @@ $color-selection-dark: false !default;
     --font-body: "Source Sans 3";
     --font-heading: "Barlow Condensed";
     --color-slide-accent: #e1814c;
-    --color-muted-copy: #d1cdc7;
+    --color-muted-copy: #5f6469;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-muted-copy: #ffffff;
+    }
 }
 
 body {
@@ -83,6 +89,12 @@ body {
     font-size: 1.1rem;
     font-weight: 500;
     line-height: 1.6;
+}
+
+.content .acknowledgment {
+    margin-top: 2rem;
+    color: var(--color-text);
+    text-align: left;
 }
 
 .header h1 {
@@ -98,6 +110,23 @@ body {
 .header p {
     color: var(--color-text);
     font-family: var(--font-body);
+}
+
+.header .author-line {
+    position: relative;
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.header .contribution-note {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 5rem);
+    width: max-content;
+    font-size: 0.62em;
+    font-weight: 400;
+    transform: translateY(-50%);
 }
 
 //  TODO: clean this. it scales down large tex equations for small screens
@@ -267,6 +296,77 @@ body {
     text-transform: uppercase;
 }
 
+.capture-hero {
+    margin: 1.35rem 0 1.9rem;
+}
+
+.capture-hero video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 2px solid #e9ecef;
+    border-radius: 0.25rem;
+    background: var(--color-light);
+}
+
+.capture-hero-caption {
+    margin: 0 0 0.7rem;
+    text-align: justify;
+    font-size: 1.08rem;
+    line-height: 1.55;
+}
+
+.capture-hero-legend {
+    margin: 0.7rem 0 0;
+    color: var(--color-text);
+    font-size: 0.98rem;
+    line-height: 1.45;
+    opacity: 0.78;
+}
+
+.bibtex-copy-container {
+    position: relative;
+}
+
+.bibtex-copy-container pre {
+    margin-top: 0;
+    padding-top: 0.9rem;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.bibtex-copy-container code {
+    font-size: 0.86rem;
+    line-height: 1.35;
+}
+
+#bibtex-copy-button {
+    position: absolute;
+    top: -2.65rem;
+    right: 0.6rem;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    background: #f6f8fa;
+    color: #24292f;
+    cursor: pointer;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+#bibtex-copy-button:hover {
+    background: #eef2f6;
+}
+
+#bibtex-copy-button svg {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+}
+
 .carousel-title {
     width: 90%;
     max-width: 100%;
@@ -288,6 +388,10 @@ body {
 .inference-video-panel {
     width: 100%;
     margin: 1.3rem 0 1.8rem;
+}
+
+.peg-video-picker {
+    width: 100%;
 }
 
 .inference-picker-controls {
@@ -369,8 +473,26 @@ body {
     line-height: 0;
 }
 
+.inference-video-stage:empty {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    color: var(--color-muted-copy);
+    line-height: 1.4;
+}
+
+.inference-video-stage:empty::before {
+    content: "Video loads when this section enters view";
+    padding: 1rem;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
 .capture-video-picker[data-video-template^="./marble_videos/"] .inference-video-stage {
     display: flex;
+    align-items: center;
     justify-content: center;
     box-sizing: border-box;
     background: var(--color-light);
@@ -402,46 +524,50 @@ body {
     line-height: 1.45;
 }
 
+.result-table-title {
+    margin: 2.1rem 0 0.55rem;
+    color: var(--color-text);
+    font-size: 1.12rem;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: left;
+}
+
 .result-table-wrap {
-    margin: 1.5rem 0;
+    margin: 0 0 0.25rem;
     overflow-x: auto;
+    border-top: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-radius: 0;
 }
 
 .result-table {
     width: 100%;
-    min-width: 0;
-    border: 1px solid var(--color-border);
-    border-collapse: separate;
-    border-spacing: 0;
-    table-layout: fixed;
-    font-size: 0.95rem;
-    line-height: 1.3;
+    min-width: 1040px;
+    border-collapse: collapse;
+    font-size: 1.05rem;
+    line-height: 1.35;
 }
 
 .result-table caption {
     caption-side: top;
-    padding: 0 0 0.65rem;
-    color: var(--color-slide-accent);
-    font-family: var(--font-heading);
-    font-size: 1.16rem;
-    letter-spacing: 0.025em;
-    text-align: center;
+    padding: 0 0 0.55rem;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 1.12rem;
+    letter-spacing: 0;
+    text-align: left;
     font-weight: 600;
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 .result-table th,
 .result-table td {
-    padding: 0.38rem 0.4rem;
+    padding: 0.58rem 0.52rem;
     border: 0;
-    border-right: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #333333;
     text-align: center;
     vertical-align: middle;
-}
-
-.result-table tr > :last-child {
-    border-right: 0;
 }
 
 .result-table tbody tr:last-child > * {
@@ -449,18 +575,18 @@ body {
 }
 
 .result-table th {
-    background: var(--color-light);
+    color: var(--color-text);
+    background: transparent;
     font-weight: 600;
 }
 
 .result-table strong {
-    color: var(--color-slide-accent);
+    color: inherit;
     font-weight: 700;
 }
 
-.result-table tbody tr:nth-child(even) td,
-.result-table tbody tr:nth-child(even) th {
-    background: color-mix(in srgb, var(--color-light), var(--color-white) 45%);
+.result-table .method-ours {
+    color: var(--color-slide-accent);
 }
 
 .result-table .method-cell {
@@ -511,8 +637,8 @@ body {
 }
 
 .table-note {
-    margin-top: -0.7rem;
-    color: var(--color-muted-copy);
+    margin-top: 0;
+    color: #8f969d;
     font-size: 1rem;
     line-height: 1.45;
 }
@@ -625,9 +751,9 @@ body {
 .capture-abstract {
     margin: 1.35rem 0 1.9rem;
     padding: 1rem 1.15rem 1.05rem;
-    border: 1px solid color-mix(in srgb, var(--color-border), var(--color-slide-accent) 28%);
+    border: 1px solid var(--color-text);
     border-radius: 0.4rem;
-    background: color-mix(in srgb, var(--color-light), var(--color-slide-accent) 5%);
+    background: transparent;
 }
 
 .capture-abstract p {
@@ -719,6 +845,13 @@ body {
             }
         }
 
+        .contribution-note {
+            position: static;
+            display: block;
+            margin-top: 0.15rem;
+            transform: none;
+        }
+
         a {
             text-wrap: wrap;
             white-space: normal;
@@ -744,6 +877,37 @@ body {
         font-size: 1rem;
         line-height: 1.2;
         overflow-wrap: anywhere;
+    }
+
+    .capture-hero {
+        margin: 1rem 0 1.4rem;
+    }
+
+    .capture-hero-caption {
+        font-size: 1.04rem;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+    }
+
+    .capture-hero-legend {
+        font-size: 0.94rem;
+        overflow-wrap: anywhere;
+    }
+
+    #bibtex-copy-button {
+        top: -2.3rem;
+        right: 0.45rem;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.78rem;
+    }
+
+    .bibtex-copy-container pre {
+        padding-top: 0.75rem;
+    }
+
+    .bibtex-copy-container code {
+        font-size: 0.73rem;
+        line-height: 1.28;
     }
 
     .capture-abstract {
@@ -800,7 +964,7 @@ body {
 
     .result-table-wrap {
         max-width: 100%;
-        margin: 1.1rem 0;
+        margin: 0 0 0.25rem;
     }
 
     .table-note {

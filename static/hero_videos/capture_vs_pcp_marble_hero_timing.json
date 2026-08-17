@@ -1,0 +1,44 @@
+[
+  {
+    "name": "marble_center_right_04",
+    "kind": "marble",
+    "start": 0.0,
+    "end": 4.84,
+    "speed": 0.5
+  },
+  {
+    "name": "marble_top_center_02",
+    "kind": "marble",
+    "start": 4.84,
+    "end": 7.68,
+    "speed": 0.5
+  },
+  {
+    "name": "peg_state_014",
+    "kind": "peg",
+    "start": 7.68,
+    "end": 13.813,
+    "speed": 1.0
+  },
+  {
+    "name": "peg_state_027",
+    "kind": "peg",
+    "start": 13.813,
+    "end": 19.747,
+    "speed": 1.0
+  },
+  {
+    "name": "peg_state_019",
+    "kind": "peg",
+    "start": 19.747,
+    "end": 25.88,
+    "speed": 1.0
+  },
+  {
+    "name": "peg_state_029",
+    "kind": "peg",
+    "start": 25.88,
+    "end": 31.813,
+    "speed": 1.0
+  }
+]
