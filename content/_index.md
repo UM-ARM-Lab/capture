@@ -59,6 +59,18 @@ favicon = true
     video.addEventListener("timeupdate", updateLegend);
     video.addEventListener("seeked", updateLegend);
     video.addEventListener("ended", updateLegend);
+
+    if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                video.play().catch(() => {});
+            } else {
+                video.pause();
+            }
+        }, {threshold: 0.1});
+        observer.observe(video);
+    }
+
     updateLegend();
 })();
 </script>
@@ -368,6 +380,7 @@ $$
 
         let activeVideo = null;
         let activeSrc = "";
+        let stageIsVisible = false;
         const videoCache = new Map();
 
         const setActiveButton = (selectedButton) => {
@@ -423,6 +436,20 @@ $$
             activeSrc = "";
         };
 
+        const updatePlayback = () => {
+            if (!activeVideo) return;
+
+            if (!stageIsVisible) {
+                activeVideo.pause();
+                return;
+            }
+
+            const playPromise = activeVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {});
+            }
+        };
+
         const showVideo = (video, src) => {
             if (activeVideo && activeVideo !== video) {
                 activeVideo.pause();
@@ -434,10 +461,7 @@ $$
             activeVideo = video;
             activeSrc = src;
             note.hidden = true;
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {});
-            }
+            updatePlayback();
         };
 
         const createVideo = (src) => {
@@ -445,7 +469,6 @@ $$
 
             const video = document.createElement("video");
             video.className = "inference-comparison-video";
-            video.autoplay = true;
             video.controls = true;
             video.loop = true;
             video.muted = true;
@@ -504,14 +527,21 @@ $$
         };
 
         if ("IntersectionObserver" in window) {
-            const observer = new IntersectionObserver((entries) => {
+            const visibilityObserver = new IntersectionObserver(([entry]) => {
+                stageIsVisible = entry.isIntersecting;
+                updatePlayback();
+            }, {threshold: 0.1});
+            visibilityObserver.observe(stage);
+
+            const preloadObserver = new IntersectionObserver((entries) => {
                 if (!entries.some((entry) => entry.isIntersecting)) return;
 
-                observer.disconnect();
+                preloadObserver.disconnect();
                 loadInitialVideo();
             }, {rootMargin: "120px 0px"});
-            observer.observe(picker);
+            preloadObserver.observe(picker);
         } else {
+            stageIsVisible = true;
             loadInitialVideo();
         }
     };
