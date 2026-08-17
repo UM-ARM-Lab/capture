@@ -119,6 +119,13 @@ body {
     margin-left: auto;
 }
 
+.header .equal-contribution-marker {
+    font-size: 0.82em;
+    font-weight: 600;
+    line-height: 0;
+    vertical-align: 0.25em;
+}
+
 .header .contribution-note {
     position: absolute;
     top: 50%;
@@ -127,6 +134,10 @@ body {
     font-size: 0.62em;
     font-weight: 400;
     transform: translateY(-50%);
+}
+
+.header .equal-contribution-note-marker {
+    font-weight: 600;
 }
 
 //  TODO: clean this. it scales down large tex equations for small screens

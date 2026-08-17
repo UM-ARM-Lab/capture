@@ -16,7 +16,7 @@
                                 {{- author.name -}}
                             </a>
                             {%- if author.contribution -%}
-                                <sup><small>*</small></sup>
+                                <sup class="equal-contribution-marker">*</sup>
                             {%- endif -%}
                             {%- if not loop.last -%}
                                 &comma;
@@ -28,7 +28,7 @@
                     </span>
                     {% if this.extra.contribution %}
                         <span class="contribution-note">
-                            <sup>*</sup>&nbsp;{{ this.extra.contribution }}
+                            <span class="equal-contribution-note-marker">*</span>&nbsp;{{ this.extra.contribution }}
                         </span>
                     {% endif %}
                 </h2>
