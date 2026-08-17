@@ -10,7 +10,7 @@ peg_dir="${repo_dir}/static/peg_videos/w50_odin/kth_nn_stratcp_k4_factory_shaved
 
 inputs=(
     "${marble_dir}/center_right_episode_04_capture_knn8.mp4"
-    "${repo_dir}/static/hero_videos/center_capture_with_particles_1x1.mp4"
+    "${repo_dir}/static/hero_videos/center_capture_with_particles_16x9.mp4"
     "${peg_dir}/state_004/inference_trace_combined_replay.mp4"
     "${peg_dir}/state_014/inference_trace_combined_replay.mp4"
 )
@@ -33,7 +33,7 @@ ffmpeg -hide_banner -y \
     -i "${inputs[3]}" \
     -filter_complex \
     "[0:v]crop=1440:1440:80:0,scale=1080:1080:flags=lanczos,setsar=1,fps=20,tpad=stop_mode=clone:stop_duration=0.35[m0];\
-     [1:v]crop=1280:1280:80:0,scale=1080:1080:flags=lanczos,setsar=1,fps=20,tpad=stop_mode=clone:stop_duration=0.50[m1];\
+     [1:v]crop=1440:1440:560:0,scale=1080:1080:flags=lanczos,setsar=1,fps=20,tpad=stop_mode=clone:stop_duration=0.50[m1];\
      [2:v]setpts=0.5*(PTS-STARTPTS),crop=886:886:289:90,scale=1080:1080:flags=lanczos,setsar=1,fps=20,tpad=stop_mode=clone:stop_duration=0.40[p0];\
      [3:v]setpts=0.5*(PTS-STARTPTS),crop=886:886:289:90,scale=1080:1080:flags=lanczos,setsar=1,fps=20,tpad=stop_mode=clone:stop_duration=0.40[p1];\
      [m0][m1][p0][p1]concat=n=4:v=1:a=0[out]" \
