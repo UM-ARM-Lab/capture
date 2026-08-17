@@ -75,13 +75,7 @@ $color-selection-dark: false !default;
     --font-body: "Source Sans 3";
     --font-heading: "Barlow Condensed";
     --color-slide-accent: #e1814c;
-    --color-muted-copy: #5f6469;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-muted-copy: #ffffff;
-    }
+    --color-muted-copy: #ffffff;
 }
 
 body {

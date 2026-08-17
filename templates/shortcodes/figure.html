@@ -22,11 +22,8 @@
                     {% else %}
                     {% set item_dark_src = dark_src[loop.index0] | default(value="") %}
                     {% if item_dark_src %}
-                    <picture>
-                        <source srcset="{{ item_dark_src | safe }}" media="(prefers-color-scheme: dark)">
-                        <img class="no-dark-filter" alt="{{ alt[loop.index0] }}" src="{{ item | safe }}" loading="lazy"
-                            {% if style %} style="{{ style }}" {% endif %}>
-                    </picture>
+                    <img class="no-dark-filter" alt="{{ alt[loop.index0] }}" src="{{ item_dark_src | safe }}"
+                        loading="lazy" {% if style %} style="{{ style }}" {% endif %}>
                     {% else %}
                     <img {% if dark_invert[loop.index0] %}class="dark-invert" {% endif %}alt="{{ alt[loop.index0] }}"
                         src="{{ item | safe }}" loading="lazy" {% if style %} style="{{ style }}" {% endif %}>
@@ -62,11 +59,8 @@
     {% else %}
     {% set item_dark_src = dark_src[loop.index0] | default(value="") %}
     {% if item_dark_src %}
-    <picture>
-        <source srcset="{{ item_dark_src | safe }}" media="(prefers-color-scheme: dark)">
-        <img class="single-image no-dark-filter" alt="{{ alt[loop.index0] }}" src="{{ item | safe }}" loading="lazy" {%
-            if style %} style="{{ style }}" {% endif %}>
-    </picture>
+    <img class="single-image no-dark-filter" alt="{{ alt[loop.index0] }}" src="{{ item_dark_src | safe }}"
+        loading="lazy" {% if style %} style="{{ style }}" {% endif %}>
     {% else %}
     <img {% if dark_invert[loop.index0] %}class="dark-invert single-image" {% else %}class="single-image" {% endif
         %}alt="{{ alt[loop.index0] }}" src="{{ item | safe }}" loading="lazy" {% if style %} style="{{ style }}" {%
