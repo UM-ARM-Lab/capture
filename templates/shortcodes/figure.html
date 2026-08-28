@@ -1,0 +1,535 @@
+{% set this = page | default(value = section) %}
+{% set first_src = src | first %}
+{% set clean_name = first_src | replace(from="/", to="") | replace(from=".", to="") | replace(from=" ", to="") %}
+{% set carousel_id = "carousel-" ~ clean_name %}
+{% set style = style | default(value="") %}
+{% set dark_src = dark_src | default(value=[]) %}
+{% set labels = labels | default(value=[]) %}
+<figure{% if style %} style="{{ style }}" {% endif %}>
+    {% if src | length > 1 %}
+    <div class="carousel-wrapper">
+        <div class="video-carousel{% if dark_background[0] %} dark-background{% endif %}" id="{{ carousel_id }}">
+            <div class="carousel-container">
+                {% for item in src %}
+                <div class="carousel-slide" {% if loop.first %}style="display: block;" {% else %}style="display: none;"
+                    {% endif %}>
+                    {% if item is ending_with('.mp4') %}
+                    <video {% if dark_invert[loop.index0] %}class="dark-invert" {% endif %}{{
+                        source_attributes[loop.index0] | default(value='loop muted playsinline' ) }}{% if style %}
+                        style="{{ style }}" {% endif %}>
+                        <source src="{{ item | safe }}" type="video/mp4">
+                    </video>
+                    {% else %}
+                    {% set item_dark_src = dark_src[loop.index0] | default(value="") %}
+                    {% if item_dark_src %}
+                    <img class="no-dark-filter" alt="{{ alt[loop.index0] }}" src="{{ item_dark_src | safe }}"
+                        loading="lazy" {% if style %} style="{{ style }}" {% endif %}>
+                    {% else %}
+                    <img {% if dark_invert[loop.index0] %}class="dark-invert" {% endif %}alt="{{ alt[loop.index0] }}"
+                        src="{{ item | safe }}" loading="lazy" {% if style %} style="{{ style }}" {% endif %}>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <button type="button" class="carousel-prev" aria-label="Previous slide"
+                data-carousel-target="{{ carousel_id }}" data-carousel-direction="-1"></button>
+            <button type="button" class="carousel-next" aria-label="Next slide"
+                data-carousel-target="{{ carousel_id }}" data-carousel-direction="1"></button>
+        </div>
+
+        <div class="{% if labels | length > 0 %}carousel-tabs{% else %}carousel-dots{% endif %}">
+            {% for item in src %}
+            <button type="button"
+                class="{% if labels | length > 0 %}carousel-tab{% else %}carousel-dot{% endif %} carousel-control{% if loop.first %} active{% endif %}"
+                aria-label="{% if labels | length > 0 %}Show {{ labels[loop.index0] }}{% else %}Show slide {{ loop.index }}{% endif %}"
+                data-carousel-target="{{ carousel_id }}" data-carousel-slide="{{ loop.index0 }}">{% if labels | length > 0 %}{{ labels[loop.index0] }}{% endif %}</button>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    {% for item in src %}
+    {% if item is ending_with('.mp4') %}
+    <video {% if dark_invert[loop.index0] %}class="dark-invert single-video" {% else %}class="single-video" {% endif
+        %}{{ source_attributes[loop.index0] | default(value='controls loop autoplay muted' ) }}{% if style %}
+        style="{{ style }}" {% endif %}>
+        <source src="{{ item | safe }}" type="video/mp4">
+    </video>
+    {% else %}
+    {% set item_dark_src = dark_src[loop.index0] | default(value="") %}
+    {% if item_dark_src %}
+    <img class="single-image no-dark-filter" alt="{{ alt[loop.index0] }}" src="{{ item_dark_src | safe }}"
+        loading="lazy" {% if style %} style="{{ style }}" {% endif %}>
+    {% else %}
+    <img {% if dark_invert[loop.index0] %}class="dark-invert single-image" {% else %}class="single-image" {% endif
+        %}alt="{{ alt[loop.index0] }}" src="{{ item | safe }}" loading="lazy" {% if style %} style="{{ style }}" {%
+        endif %}>
+    {% endif %}
+    {% endif %}
+    {% if subcaption %}
+    <figcaption>{{ subcaption[loop.index0] | markdown(inline = true) | safe }}</figcaption>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    {% if body %}
+    <figcaption>{{ body | markdown(inline = true) | safe }}</figcaption>
+    {% endif %}
+    </figure>
+
+    <style>
+        .carousel-wrapper {
+            width: 90%;
+            max-width: 100%;
+            margin: 2rem auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-carousel {
+            width: 100%;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            line-height: 0;
+        }
+
+        .carousel-slide {
+            display: none;
+            width: 100%;
+        }
+
+        .carousel-slide.active {
+            display: block;
+        }
+
+        .carousel-slide video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 2px solid #e9ecef;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .carousel-slide figcaption {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            text-align: justify;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .carousel-prev,
+        .carousel-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+            z-index: 10;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-prev::before,
+        .carousel-next::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .carousel-prev::before {
+            border-width: 8px 10px 8px 0;
+            border-color: transparent white transparent transparent;
+            margin-right: 2px;
+        }
+
+        .carousel-next::before {
+            border-width: 8px 0 8px 10px;
+            border-color: transparent transparent transparent white;
+            margin-left: 2px;
+        }
+
+        .carousel-prev:hover,
+        .carousel-next:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .carousel-prev {
+            left: 10px;
+        }
+
+        .carousel-next {
+            right: 10px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 10px auto 0;
+            width: fit-content;
+        }
+
+        .carousel-tabs {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 12px auto 0;
+            width: fit-content;
+            max-width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .carousel-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: none;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .carousel-dot.active {
+            background: var(--color-primary);
+            width: 18px;
+            height: 18px;
+        }
+
+        .carousel-tab {
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            background: var(--color-light);
+            color: var(--color-text);
+            cursor: pointer;
+            padding: 0.35rem 0.7rem;
+            font-size: 0.96rem;
+            line-height: 1.1;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .carousel-tab:hover,
+        .carousel-tab.active {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .single-video {
+            border: 2px solid #e9ecef;
+        }
+
+        .dark-background .carousel-prev,
+        .dark-background .carousel-next {
+            background: rgba(255, 255, 255, 0.178);
+            color: #333;
+        }
+
+        .dark-background .carousel-prev:hover,
+        .dark-background .carousel-next:hover {
+            background: rgba(255, 255, 255, 0.329);
+        }
+
+        /* Mobile styles - placed at end for proper cascade */
+        @media screen and (max-width: 768px) {
+            .carousel-wrapper {
+                width: 100%;
+            }
+
+            .carousel-wrapper .carousel-dots {
+                margin: -10px auto 0 !important;
+            }
+
+            .carousel-tabs {
+                margin: 8px auto 0;
+                gap: 6px;
+            }
+
+            .carousel-tab {
+                padding: 0.32rem 0.55rem;
+                font-size: 0.9rem;
+            }
+
+            .video-carousel {
+                margin: 1rem auto;
+            }
+
+            .carousel-prev,
+            .carousel-next {
+                width: 28px;
+                height: 28px;
+            }
+
+            .carousel-prev span,
+            .carousel-next span {
+                font-size: 28px;
+            }
+
+            .carousel-prev {
+                left: 8px;
+            }
+
+            .carousel-next {
+                right: 8px;
+            }
+        }
+    </style>
+
+    <script>
+        function setCarouselControls(carousel, enabled) {
+            carousel.querySelectorAll('video').forEach(video => {
+                if (enabled) {
+                    video.setAttribute('controls', '');
+                } else {
+                    video.removeAttribute('controls');
+                }
+            });
+        }
+
+        function syncCarouselControls(carousel) {
+            setCarouselControls(carousel, carousel.matches(':hover'));
+        }
+
+        function playCarouselMedia(video) {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Video play was prevented:', error);
+                });
+            }
+        }
+
+        function moveSlide(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            const dots = carousel.parentElement.querySelectorAll('.carousel-control');
+            let currentIndex = 0;
+
+            // Find current active slide
+            slides.forEach((slide, index) => {
+                if (slide.style.display === 'block') {
+                    currentIndex = index;
+                }
+            });
+
+            // Calculate new index
+            let newIndex = currentIndex + direction;
+            if (newIndex >= slides.length) {
+                newIndex = 0;
+            } else if (newIndex < 0) {
+                newIndex = slides.length - 1;
+            }
+
+            // Update slides and control video playback
+            slides.forEach((slide, index) => {
+                if (index === newIndex) {
+                    slide.style.display = 'block';
+                    const video = slide.querySelector('video');
+                    if (video) {
+                        video.currentTime = 0;
+                        playCarouselMedia(video);
+                    }
+                } else {
+                    slide.style.display = 'none';
+                    const video = slide.querySelector('video');
+                    if (video) {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                }
+            });
+
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === newIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            syncCarouselControls(carousel);
+        }
+
+        function goToSlide(carouselId, slideIndex) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            const dots = carousel.parentElement.querySelectorAll('.carousel-control');
+            let currentIndex = 0;
+
+            slides.forEach((slide, index) => {
+                if (slide.style.display === 'block') {
+                    currentIndex = index;
+                }
+            });
+
+            if (currentIndex === slideIndex) {
+                syncCarouselControls(carousel);
+                return;
+            }
+
+            // Update slides and control video playback
+            slides.forEach((slide, index) => {
+                if (index === slideIndex) {
+                    slide.style.display = 'block';
+                    const video = slide.querySelector('video');
+                    if (video) {
+                        video.currentTime = 0;
+                        playCarouselMedia(video);
+                    }
+                } else {
+                    slide.style.display = 'none';
+                    const video = slide.querySelector('video');
+                    if (video) {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                }
+            });
+
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === slideIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            syncCarouselControls(carousel);
+        }
+
+        // Play video when carousel comes into view
+        function playCarouselVideo(carousel) {
+            if (carousel.dataset.played === 'true') return;
+
+            const visibleSlide = carousel.querySelector('.carousel-slide:not([style*="display: none"])');
+            if (visibleSlide) {
+                const video = visibleSlide.querySelector('video');
+                if (video) {
+                    video.currentTime = 0;
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            carousel.dataset.played = 'true';
+                        }).catch(error => {
+                            console.log('Auto-play was prevented:', error);
+                        });
+                    }
+                }
+            }
+        }
+
+        function handleCarouselButtonClick(event) {
+            const button = event.currentTarget || event.target.closest('[data-carousel-target]');
+            if (!button) return;
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            const target = button.dataset.carouselTarget;
+            if (!target) return;
+
+            if (button.dataset.carouselDirection !== undefined) {
+                moveSlide(target, Number(button.dataset.carouselDirection));
+            } else if (button.dataset.carouselSlide !== undefined) {
+                goToSlide(target, Number(button.dataset.carouselSlide));
+            }
+        }
+
+        function bindCarouselButtons(root) {
+            root.querySelectorAll('[data-carousel-target]').forEach(button => {
+                if (button.dataset.carouselBound === 'true') return;
+                button.setAttribute('type', 'button');
+                button.addEventListener('click', handleCarouselButtonClick);
+                button.addEventListener('auxclick', event => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                });
+                button.addEventListener('pointerdown', event => {
+                    event.stopPropagation();
+                });
+                button.dataset.carouselBound = 'true';
+            });
+        }
+
+        function setupCarouselButtons() {
+            document.querySelectorAll('.carousel-wrapper').forEach(bindCarouselButtons);
+        }
+
+        function setupIntersectionObserver() {
+            const carousels = document.querySelectorAll('.video-carousel');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        playCarouselVideo(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1 // Play when 10% of carousel is visible
+            });
+
+            carousels.forEach(carousel => {
+                if (carousel.dataset.controlsReady !== 'true') {
+                    setCarouselControls(carousel, false);
+                    carousel.addEventListener('mouseenter', () => setCarouselControls(carousel, true));
+                    carousel.addEventListener('mouseleave', () => setCarouselControls(carousel, false));
+                    carousel.dataset.controlsReady = 'true';
+                }
+
+                setupCarouselButtons();
+
+                if (carousel.dataset.observerReady === 'true') return;
+                observer.observe(carousel);
+                carousel.dataset.observerReady = 'true';
+
+                // Check if already visible
+                const rect = carousel.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                if (isVisible) {
+                    playCarouselVideo(carousel);
+                }
+            });
+        }
+
+        // Initialize when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupIntersectionObserver);
+        } else {
+            setupIntersectionObserver();
+        }
+    </script>

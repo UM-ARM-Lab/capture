@@ -1,0 +1,10 @@
+{% set parts = body | trim | split(pat="---") %}
+<div class="problem-columns">
+{% for part in parts %}
+{% if part | trim != "" %}
+  <div class="problem-card">
+    {{ part | trim | markdown | safe }}
+  </div>
+{% endif %}
+{% endfor %}
+</div>

@@ -1,0 +1,28 @@
+:root {
+    color-scheme: dark;
+    --color-text: #{$color-text-dark};
+    --color-primary: #{$color-primary-dark};
+    --color-light: #{$color-light-dark};
+    --color-white: #{$color-white-dark};
+    --color-black: #{$color-black-dark};
+    --color-btn: #{$color-btn-dark};
+    --color-border: #{$color-border};
+    @if $color-selection { --color-selection: #{$color-selection}; }
+}
+
+.dark-invert, pre.z-code code {
+    filter: invert(86.67%) hue-rotate(180deg);
+}
+
+img:not(.dark-invert):not(.no-dark-filter) {
+    filter: brightness(80%);
+}
+
+@if $color-selection {
+    ::selection {
+        background: var(--color-selection);
+    }
+    ::-moz-selection {
+        background: var(--color-selection);
+    }
+}

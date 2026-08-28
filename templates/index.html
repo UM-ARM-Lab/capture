@@ -1,0 +1,120 @@
+{% import "macros/icons.html" as icons %}
+
+{% extends "default.html" %}
+
+{% block main %}
+<main aria-label="Content">
+    {% if this.toc %}
+        <aside class="capture-section-nav" data-capture-section-nav aria-label="On this page">
+            <nav>
+                <ol>
+                    {% for heading in this.toc %}
+                        {% if heading.id != "experiments" %}
+                            <li>
+                                <a href="#{{ heading.id }}" data-capture-section-link data-section-id="{{ heading.id }}">
+                                    {{- heading.title | safe -}}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% for child in heading.children %}
+                            <li>
+                                <a href="#{{ child.id }}" data-capture-section-link data-section-id="{{ child.id }}"{% if child.id == "marble-labyrinth-control" %} data-scroll-target-id="experiments"{% endif %}>
+                                    {%- if child.id == "peg-configuration-space-explorer" -%}
+                                        Peg C-space Explorer
+                                    {%- else -%}
+                                        {{- child.title | safe -}}
+                                    {%- endif -%}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                </ol>
+            </nav>
+        </aside>
+    {% endif %}
+    <div class="container">
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+
+            <header class="header">
+                <h1 itemprop="name headline">{{ this.extra.display_title | default(value=this.title) | safe }}</h1>
+                <h2 class="author-line">
+                    <span itemprop="author">
+                        {% for author in this.extra.authors %}
+                            <a href="{{ author.url | default(value = this.path ~ '#') | safe }}" target="_blank">
+                                {{- author.name -}}
+                            </a>
+                            {%- if author.contribution -%}
+                                <sup class="equal-contribution-marker">*</sup>
+                            {%- endif -%}
+                            {%- if not loop.last -%}
+                                &comma;
+                            {%- endif -%}
+                            {%- if not loop.last -%}
+                                &#32;
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                    {% if this.extra.contribution %}
+                        <span class="contribution-note">
+                            <span class="equal-contribution-note-marker">*</span>&nbsp;{{ this.extra.contribution }}
+                        </span>
+                    {% endif %}
+                </h2>
+                <div>
+                    {% for button in this.extra.buttons %}
+                        {% if button.disabled %}
+                        <span class="btn btn-disabled" aria-disabled="true" title="Coming soon">
+                        {% else %}
+                        <a class="btn" href="{{ button.url | safe }}" target="_blank">
+                        {% endif %}
+                            {% if not button.no_icon %}
+                                <span class="btn-icon" aria-hidden="true">
+                                    {{- icons::icon(name = button.name | lower) -}}
+                                </span>
+                            {% endif %}
+                            <span class="btn-label">{{- button.name -}}</span>
+                        {% if button.disabled %}
+                        </span>
+                        {% else %}
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <h2>
+                    {% if this.extra.venue.url %}
+                        <a href="{{ this.extra.venue.url | safe }}" target="_blank">
+                            <span itemprop="isPartOf" itemscope itemtype="http://schema.org/Periodical"><span itemprop="name" style="white-space: normal;">
+                                {{- this.extra.venue.name -}}
+                            </span></span>{% if this.extra.venue.date or this.date %}&nbsp;<time datetime="{{ this.extra.venue.date | default(value = this.date) | date(format='%+') }}" itemprop="datePublished">
+                                {{- this.extra.venue.date | default(value = this.date) | date(format='%Y') -}}
+                            </time>{% endif %}
+                        </a>
+                    {% else %}
+                        <span itemprop="isPartOf" itemscope itemtype="http://schema.org/Periodical"><span itemprop="name" style="white-space: normal;">
+                            {{- this.extra.venue.name -}}
+                        </span></span>{% if this.extra.venue.date or this.date %}&nbsp;<time datetime="{{ this.extra.venue.date | default(value = this.date) | date(format='%+') }}" itemprop="datePublished">
+                            {{- this.extra.venue.date | default(value = this.date) | date(format='%Y') -}}
+                        </time>{% endif %}
+                    {% endif %}
+                </h2>
+            </header>
+        
+            <div class="content" itemprop="articleBody" id="content">
+                {{ this.content | safe }}
+            </div>
+
+            {% block footer %}
+                {% if config.extra.footer_text %}
+                    <footer class="footer">
+                        {{ config.extra.footer_text | markdown | safe }}
+                    </footer>
+                {% endif %}
+            {% endblock %}
+
+        </article>
+    </div>
+</main>
+{% if this.toc %}
+    <script defer src="{{ get_url(path = 'section-nav.js') | safe }}?v=20260825-arrow-sequence"></script>
+{% endif %}
+{% endblock main %}
