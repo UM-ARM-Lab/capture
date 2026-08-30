@@ -112,7 +112,7 @@ $$
 
 <p>The selected maze section is outlined in off-white on the physical board, and predicted propagated particles are shown in light blue.</p>
 
-<div class="inference-video-panel capture-video-picker" data-capture-video-picker data-video-template="./marble_videos/single/{map}_episode_{episode}_{method}.mp4?v=20260828-fixed-strata-square-camera-05x">
+<div class="inference-video-panel capture-video-picker" data-capture-video-picker data-video-template="./marble_videos/single/{map}_episode_{episode}_{method}.mp4?v=20260830-canonical-strata-camera-05x">
     <div class="inference-picker-controls">
         <div class="inference-picker-group" aria-label="Marble map">
             <span class="inference-picker-label">Map</span>
